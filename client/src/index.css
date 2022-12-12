@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;600&family=Wallpoet&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+body {
+  width: 100%;
+  font-family: 'Outfit', cursive;
 }

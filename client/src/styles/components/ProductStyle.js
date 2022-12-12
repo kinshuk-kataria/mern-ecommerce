@@ -45,8 +45,9 @@ export const AddItem = styled.div`
   margin-top: 10px;
   button {
     min-width: 100%;
-    padding: 10px 0;
+    padding: 10px 10px;
     cursor: pointer;
+
     &:hover {
       background-color: #212121;
       color: white;

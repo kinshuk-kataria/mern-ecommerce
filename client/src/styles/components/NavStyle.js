@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Nav = styled.div`
-  padding: 12px 10px 0 10px;
+  padding: 0.5rem;
   color: white;
   background-color: #212121;
   display: flex;
@@ -11,6 +11,11 @@ export const Nav = styled.div`
   position: sticky;
   top: 0;
   left: 0;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 export const Logo = styled.h1``;
@@ -21,16 +26,16 @@ export const Container = styled.div`
 
 export const Item = styled.div`
   text-align: center;
-  margin-right: 30px;
+  margin: 0 1.5rem;
   color: gray;
   cursor: pointer;
   p {
     position: absolute;
     top: 0;
-    right: 45px;
+    right: 2.3rem;
     background: red;
     border-radius: 50%;
     width: 18px;
-    color: black;
+    color: white;
   }
 `;
