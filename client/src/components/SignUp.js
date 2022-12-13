@@ -6,6 +6,8 @@ function SignUp() {
     <Container>
       <h2>CREATE A PROFILE</h2>
       <Form>
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" />
         <label htmlFor="email">Email Address</label>
         <input type="text" id="email" required />
         <label htmlFor="password">Password</label>
