@@ -1,16 +1,22 @@
 import React from 'react';
 import { Container, Form } from '../styles/components/LoginStyle';
-
+import { registerUser } from '../features/auth/authActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function SignUp() {
+  const dispatch = useDispatch();
+  const { loading, userInfo, error } = useSelector(state => state.auth);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  console.log(formData);
+
+  useEffect(() => {}, [userInfo]);
 
   const handleInputChange = e => {
     setFormData(prevData => {
@@ -21,7 +27,24 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (formData.password === formData.confirmPassword) {
+      formData.email = formData.email.toLowerCase();
+
+      const name = formData.name;
+      const email = formData.email;
+      const password = formData.password;
+
+      const data = { name, email, password };
+
+      dispatch(registerUser(data));
+    } else {
+      alert('Please enter correct password');
+      return;
+    }
+  };
 
   return (
     <Container>

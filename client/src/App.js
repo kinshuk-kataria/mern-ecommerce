@@ -8,7 +8,12 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
+import { useSelector } from 'react-redux';
+
 function App() {
+  const state = useSelector(state => state.auth);
+  console.log(state);
+
   return (
     <div className="App">
       <Router>

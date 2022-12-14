@@ -4,13 +4,17 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
+const authRoutes = require('./routes/auth');
 
 const app = express();
+
 app.use(express.json());
+app.use('/api/user', authRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
 });
+
 /*production environment
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
@@ -21,8 +25,7 @@ res.sendFile(path.resolve(__dirname,'client','build','index.html'));
 */
 
 //MongoDB connection
-const PORT = process.env.PORT || 3001;
-
+const PORT = process.env.PORT || 4000;
 const dbURI = config.get('dbURI');
 
 mongoose
