@@ -13,7 +13,7 @@ export const Container = styled.div`
   @media (min-width: 576px) {
     width: 60%;
     border: 1px solid black;
-    margin: 33px auto;
+    margin: 12px auto;
     border-radius: 4px;
   }
   @media (min-width: 992px) {
