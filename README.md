@@ -5,6 +5,7 @@
 ### FrontEnd:
 
 -ReactJS<br/> -StateManagement: Redux<br/> -Styling: Styled-Components<br/>
+-ReactJS<br/> -StateManagement: Redux<br/> -Styling: Styled-Components<br/>
 
 ### Backend:
 
