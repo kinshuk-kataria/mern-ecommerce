@@ -4,10 +4,14 @@ import { registerUser } from '../features/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const dispatch = useDispatch();
-  const { loading, userInfo, error } = useSelector(state => state.auth);
+  const navigate = useNavigate();
+  const { loading, userInfo, error, success } = useSelector(
+    state => state.auth
+  );
 
   const [formData, setFormData] = useState({
     name: '',
@@ -16,7 +20,14 @@ function SignUp() {
     confirmPassword: ''
   });
 
-  useEffect(() => {}, [userInfo]);
+  useEffect(() => {
+    if (success) {
+      alert('profile created successfuly');
+      navigate('/login');
+    } else if (error) {
+      alert('Please enter valid email address');
+    }
+  }, [success, navigate, error]);
 
   const handleInputChange = e => {
     setFormData(prevData => {
@@ -33,13 +44,9 @@ function SignUp() {
     if (formData.password === formData.confirmPassword) {
       formData.email = formData.email.toLowerCase();
 
-      const name = formData.name;
-      const email = formData.email;
-      const password = formData.password;
+      const { name, email, password } = formData;
 
-      const data = { name, email, password };
-
-      dispatch(registerUser(data));
+      dispatch(registerUser({ name, email, password }));
     } else {
       alert('Please enter correct password');
       return;

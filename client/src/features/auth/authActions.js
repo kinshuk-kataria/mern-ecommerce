@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const registerUser = createAsyncThunk(
-  'user/register',
+  '/register',
   async ({ name, email, password }, { rejectWithValue }) => {
     try {
       const config = {
@@ -10,8 +10,9 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'application/json'
         }
       };
+
       const response = await axios.post(
-        '/api/user/register',
+        '/api/register',
         { name, email, password },
         config
       );

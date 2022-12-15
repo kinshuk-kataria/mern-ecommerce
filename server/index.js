@@ -9,7 +9,8 @@ const authRoutes = require('./routes/auth');
 const app = express();
 
 app.use(express.json());
-app.use('/api/user', authRoutes);
+app.use('/api', authRoutes);
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
