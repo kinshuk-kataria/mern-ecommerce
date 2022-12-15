@@ -9,9 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, userInfo, error, success } = useSelector(
-    state => state.auth
-  );
+  const { error, success } = useSelector(state => state.auth);
 
   const [formData, setFormData] = useState({
     name: '',
