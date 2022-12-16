@@ -11,11 +11,16 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const { success } = useSelector(state => state.auth);
+  const { userInfo, error } = useSelector(state => state.auth);
 
   useEffect(() => {
-    if (success) alert('Logged-in successfully');
-  }, [success]);
+    if (userInfo) {
+      alert('Logged-in successfully');
+      navigate('/');
+    } else if (error) {
+      alert('Please enter valid credentials');
+    }
+  }, [userInfo, navigate, error]);
 
   const handleInputChange = e => {
     setFormData(prevData => {

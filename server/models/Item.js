@@ -14,9 +14,9 @@ const ItemSchema = new Schema({
     type: Number,
     required: true
   },
-  date_added: {
-    type: Date,
-    default: Date.now
+  img: {
+    type: String,
+    required: true
   }
 });
 

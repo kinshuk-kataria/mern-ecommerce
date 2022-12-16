@@ -10,9 +10,9 @@ import SignUp from './components/SignUp';
 import { useSelector } from 'react-redux';
 
 function App() {
-  const state = useSelector(state=>state.auth);
+  const state = useSelector(state => state.products);
   console.log(state);
-  console.log(localStorage);
+
   return (
     <div className="App">
       <Router>
