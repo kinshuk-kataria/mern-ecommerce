@@ -1,11 +1,12 @@
 const Cart = require('../models/Cart');
 const Item = require('../models/Item');
 
-module.exports.get_cart_items = async (req, res) => {
+module.exports.getCart = async (req, res) => {
   const userId = req.params.id;
 
   try {
     let cart = await Cart.findOne({ userId });
+
     if (cart && cart.items.length > 0) {
       res.send(cart);
     } else {
@@ -17,42 +18,48 @@ module.exports.get_cart_items = async (req, res) => {
   }
 };
 
-module.exports.add_cart_item = async (req, res) => {
-  const userId = rq.params.id;
-  const { productId, quantity } = req.body;
+module.exports.addToCart = async (req, res) => {
+  const userId = req.params.id;
+
+  const { productId } = req.body;
+  const quantity = Number.parseInt(req.body.quantity);
 
   try {
-    let cart = Cart.findOne({ userId });
-    let item = await Item.findOne({ _id: productId });
+    let cart = await Cart.findOne({ userId });
+    let itemDetails = await Item.findOne({ _id: productId });
 
-    if (!item) {
-      res.status(404).send('Item not found');
+    if (!itemDetails) {
+      res.status(404).jsoon({
+        type: 'Not Found',
+        msg: 'Invalid request'
+      });
     }
 
-    const price = item.price;
-    const name = item.name;
+    const price = itemDetails.price;
+    const title = itemDetails.title;
 
     if (cart) {
       //if cart exist for the user
-      let itemIndex = cart.items.findIndex(p => p.productId == productId);
+      let indexFound = cart.items.findIndex(p => p.productId == productId);
 
       //check if product exist or not
-      if (itemIndex > -1) {
-        let productItem = cart.items[itemIndex];
+      if (indexFound !== -1) {
+        let productItem = cart.items[indexFound];
+
         productItem.quantity += quantity;
-        cart.items[itemIndex] = productItem;
+        cart.items[indexFound] = productItem;
       } else {
-        cart.items.push({ productId, name, quantity, price });
+        cart.items.push({ productId, title, quantity, price });
       }
 
-      cart.bill += quantity.price;
+      cart.bill += quantity * price;
       cart = await cart.save();
       return res.status(201).send(cart);
     } else {
-      //no cart exist, create one
+      //create cart if doesn't exist
       const newCart = await Cart.create({
         userId,
-        items: [{ productId, name, quantity, price }],
+        items: [{ productId, title, quantity, price }],
         bill: quantity * price
       });
 
@@ -64,7 +71,7 @@ module.exports.add_cart_item = async (req, res) => {
   }
 };
 
-module.exports.update_cart_item = async (req, res) => {
+module.exports.updateCart = async (req, res) => {
   const userId = req.params.id;
   const productId = req.params.itemId;
 

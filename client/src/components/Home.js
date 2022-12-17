@@ -5,11 +5,14 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchProducts } from '../features/product/productActions';
 import { useSelector } from 'react-redux';
+import { getCart } from '../features/cart/cartActions';
 
 function Home() {
   const dispatch = useDispatch();
 
   const { items } = useSelector(state => state.products);
+  const { userInfo } = useSelector(state => state.auth);
+  console.log(userInfo);
 
   useEffect(() => {
     dispatch(fetchProducts());

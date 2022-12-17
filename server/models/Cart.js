@@ -3,12 +3,14 @@ const Schema = mongoose.Schema;
 
 const CartSchema = new Schema({
   userId: {
-    type: String
+    type: String,
+    ref: 'user'
   },
   items: [
     {
       productId: {
-        type: String
+        type: String,
+        ref: 'item'
       },
       name: String,
       quantity: {
@@ -17,7 +19,9 @@ const CartSchema = new Schema({
         min: [1, 'Quantity cannot be less than 1'],
         default: 1
       },
-      price: Number
+      price: {
+        type: Number
+      }
     }
   ],
   bill: {

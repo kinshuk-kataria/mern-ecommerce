@@ -6,6 +6,7 @@ const path = require('path');
 const config = require('config');
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
+const cartRoutes = require('./routes/cart');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/api', authRoutes);
 app.use('/api', itemRoutes);
+app.use('/api', cartRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
