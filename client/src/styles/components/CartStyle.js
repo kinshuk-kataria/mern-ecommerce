@@ -38,6 +38,7 @@ export const ItemDetails = styled.div`
 
   h3 {
     margin-bottom: 10px;
+    text-align: left;
   }
 `;
 export const QuantityContainer = styled.div`

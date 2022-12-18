@@ -13,25 +13,22 @@ import { useEffect } from 'react';
 
 function Cart() {
   const cart = useSelector(state => state.cart.cart);
+  const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCart(':639b404be0b8d4e43dc117cf'));
+    dispatch(getCart(userInfo?._id));
   }, []);
-
   if (cart) {
     return (
       <Container>
         <h2>Cart</h2>
-        {cart?.items?.map(item => (
-          <Item>
+        {cart.items?.map(item => (
+          <Item key={cart._id}>
             {' '}
-            <img
-              src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/433577/item/goods_09_433577.jpg?width=1008&impolicy=quality_75"
-              alt="jacket"
-            ></img>
+            <img src={item.img} alt="jacket"></img>
             <ItemDetails>
-              <h3>{item?.name}</h3>
+              <h3>{item.title}</h3>
               <p>Price:${item?.price}</p>
               <QuantityContainer>
                 <label>Quantity:</label>

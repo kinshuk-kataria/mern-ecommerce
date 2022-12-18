@@ -7,11 +7,9 @@ import Cart from './components/Cart';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 function App() {
-  const state = useSelector(state => state.products);
-
   return (
     <div className="App">
       <Router>

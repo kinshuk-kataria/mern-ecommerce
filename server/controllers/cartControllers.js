@@ -29,7 +29,7 @@ module.exports.addToCart = async (req, res) => {
     let itemDetails = await Item.findOne({ _id: productId });
 
     if (!itemDetails) {
-      res.status(404).jsoon({
+      res.status(404).json({
         type: 'Not Found',
         msg: 'Invalid request'
       });
@@ -37,6 +37,7 @@ module.exports.addToCart = async (req, res) => {
 
     const price = itemDetails.price;
     const title = itemDetails.title;
+    const img = itemDetails.img;
 
     if (cart) {
       //if cart exist for the user
@@ -49,7 +50,7 @@ module.exports.addToCart = async (req, res) => {
         productItem.quantity += quantity;
         cart.items[indexFound] = productItem;
       } else {
-        cart.items.push({ productId, title, quantity, price });
+        cart.items.push({ productId, title, quantity, price, img });
       }
 
       cart.bill += quantity * price;
@@ -59,7 +60,7 @@ module.exports.addToCart = async (req, res) => {
       //create cart if doesn't exist
       const newCart = await Cart.create({
         userId,
-        items: [{ productId, title, quantity, price }],
+        items: [{ productId, title, quantity, price, img }],
         bill: quantity * price
       });
 
@@ -108,7 +109,7 @@ module.exports.updateCart = async (req, res) => {
   }
 };
 
-module.exports.delete_cart_item = async (req, res) => {
+module.exports.deleteCartItem = async (req, res) => {
   const userId = req.params.id;
   const productId = req.params.itemId;
 

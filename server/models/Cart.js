@@ -12,7 +12,7 @@ const CartSchema = new Schema({
         type: String,
         ref: 'item'
       },
-      name: String,
+      title: String,
       quantity: {
         type: Number,
         required: true,
@@ -21,6 +21,9 @@ const CartSchema = new Schema({
       },
       price: {
         type: Number
+      },
+      img: {
+        type: String
       }
     }
   ],
