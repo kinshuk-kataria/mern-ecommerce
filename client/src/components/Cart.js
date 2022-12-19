@@ -1,30 +1,36 @@
 import React from 'react';
 import {
   Container,
+  DeleteItem,
   Item,
   ItemDetails,
   QuantityContainer,
   Summary
 } from '../styles/components/CartStyle';
-import { getCart } from '../features/cart/cartActions';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { deleteCartItem, updateCart } from '../features/cart/cartActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 function Cart() {
   const cart = useSelector(state => state.cart.cart);
-  const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const { userInfo } = useSelector(state => state.auth);
+  const userId = userInfo?._id;
 
-  useEffect(() => {
-    dispatch(getCart(userInfo?._id));
-  }, []);
-  if (cart) {
+  const handleDeleteItem = data => {
+    dispatch(deleteCartItem(data));
+  };
+
+  const handleUpdateCart = ({ userId, productId, qty }) => {
+    dispatch(updateCart({ userId, productId, qty }));
+  };
+
+  if (cart && cart.items.length > 0) {
     return (
       <Container>
         <h2>Cart</h2>
         {cart.items?.map(item => (
-          <Item key={cart._id}>
+          <Item key={item._id}>
             {' '}
             <img src={item.img} alt="jacket"></img>
             <ItemDetails>
@@ -32,10 +38,39 @@ function Cart() {
               <p>Price:${item?.price}</p>
               <QuantityContainer>
                 <label>Quantity:</label>
-                <button>-</button>
+                <button
+                  onClick={() =>
+                    handleUpdateCart({
+                      userId,
+                      productId: item.productId,
+                      qty: item.quantity - 1
+                    })
+                  }
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
                 <span>{item?.quantity}</span>
-                <button>+</button>
+                <button
+                  onClick={() =>
+                    handleUpdateCart({
+                      userId,
+                      productId: item.productId,
+                      qty: item.quantity + 1
+                    })
+                  }
+                >
+                  +
+                </button>
               </QuantityContainer>
+              <DeleteItem>
+                <MdOutlineDeleteOutline
+                  size={25}
+                  onClick={() =>
+                    handleDeleteItem({ productId: item.productId, userId })
+                  }
+                />
+              </DeleteItem>
             </ItemDetails>
           </Item>
         ))}

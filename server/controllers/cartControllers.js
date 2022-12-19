@@ -74,7 +74,7 @@ module.exports.addToCart = async (req, res) => {
 
 module.exports.updateCart = async (req, res) => {
   const userId = req.params.id;
-  const productId = req.params.itemId;
+  const { productId, qty } = req.body;
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -100,7 +100,7 @@ module.exports.updateCart = async (req, res) => {
         (sum, item) => sum + item.price * item.quantity,
         0
       );
-      cart.save();
+      cart = await cart.save();
       return res.status(201).send(cart);
     }
   } catch (error) {
@@ -110,12 +110,15 @@ module.exports.updateCart = async (req, res) => {
 };
 
 module.exports.deleteCartItem = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.params.userId;
   const productId = req.params.itemId;
+  console.log(req.params);
 
   try {
     let cart = await Cart.findOne({ userId });
+
     let itemIndex = cart.items.findIndex(p => p.productId == productId);
+    console.log(itemIndex);
 
     if (itemIndex > -1) {
       let productItem = cart.items[itemIndex];
@@ -123,7 +126,7 @@ module.exports.deleteCartItem = async (req, res) => {
       cart.items.splice(itemIndex, 1);
     }
     cart = await cart.save();
-    return res.status(201).send(cart);
+    return res.status(201).json(cart);
   } catch (error) {
     console.log(error);
     res.status(500).send('Something went wrong');

@@ -72,3 +72,13 @@ export const Summary = styled.div`
     outline: none;
   }
 `;
+
+export const DeleteItem = styled.div`
+  cursor: pointer;
+  margin-top: 100px;
+  width: 30px;
+
+  &:hover {
+    color: red;
+  }
+`;

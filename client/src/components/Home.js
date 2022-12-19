@@ -8,13 +8,8 @@ import { useSelector } from 'react-redux';
 
 function Home() {
   const dispatch = useDispatch();
-
   const { items } = useSelector(state => state.products);
   const { userInfo } = useSelector(state => state.auth);
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
 
   return (
     <div>

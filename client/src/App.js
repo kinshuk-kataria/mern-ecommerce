@@ -8,8 +8,25 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import { useEffect } from 'react';
+import { getCart } from './features/cart/cartActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts } from './features/product/productActions';
 
 function App() {
+  const cart = useSelector(state => state.cart.cart);
+  const { userInfo } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
+  const userId = userInfo?._id;
+
+  useEffect(() => {
+    dispatch(getCart(userId));
+  }, [userInfo]);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
   return (
     <div className="App">
       <Router>
