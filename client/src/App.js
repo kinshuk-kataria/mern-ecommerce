@@ -11,17 +11,22 @@ import { useEffect } from 'react';
 import { getCart } from './features/cart/cartActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './features/product/productActions';
+import { getUserDetails } from './features/auth/authActions';
 
 function App() {
-  const cart = useSelector(state => state.cart.cart);
-  const { userInfo } = useSelector(state => state.auth);
+  const user = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
-  const userId = userInfo?._id;
+  let { userToken } = user;
+  const userId = user?.userInfo?.id;
 
   useEffect(() => {
+    if (userToken) {
+      dispatch(getUserDetails());
+    }
+
     dispatch(getCart(userId));
-  }, [userInfo]);
+  }, [userToken, userId, dispatch]);
 
   useEffect(() => {
     dispatch(fetchProducts());

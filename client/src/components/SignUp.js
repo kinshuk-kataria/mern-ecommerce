@@ -23,7 +23,7 @@ function SignUp() {
       alert('profile created successfuly');
       navigate('/login');
     } else if (error) {
-      alert('Please enter valid credentials');
+      alert(error);
     }
   }, [success, navigate, error]);
 

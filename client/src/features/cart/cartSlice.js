@@ -13,6 +13,7 @@ export const cartSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(getCart.pending, state => {
       state.loading = true;
+      state.cart = null;
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
       state.cart = action.payload;
@@ -20,6 +21,7 @@ export const cartSlice = createSlice({
     });
     builder.addCase(getCart.rejected, state => {
       state.loading = false;
+      state.cart = null;
     });
     builder.addCase(addToCart.pending, state => {
       state.loading = true;

@@ -10,6 +10,7 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(404);
+    res.send('User already exists');
     throw new Error('User already exists');
   }
 
@@ -48,8 +49,19 @@ module.exports.loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports.get_user = (req, res) => {
-  User.findById(req.user.id)
-    .select('-password')
-    .then(user => res.json(user));
-};
+module.exports.getUserProfile = asyncHandler(async (req, res) => {
+  //re.user set up in middleware
+
+  const user = await User.findById(req.user._id);
+  console.log(user);
+  if (user) {
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});

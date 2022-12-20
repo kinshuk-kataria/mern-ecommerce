@@ -16,6 +16,7 @@ export const registerUser = createAsyncThunk(
         { name, email, password },
         config
       );
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message)
@@ -35,13 +36,15 @@ export const userLogin = createAsyncThunk(
         }
       };
 
-      const { data } = await axios.post(
-        '/api/login',
-        { email, password },
-        config
-      );
-      localStorage.setItem('userToken', data.userToken);
-      return data;
+      return await axios
+        .post('/api/login', { email, password }, config)
+        .then(response => {
+          if (response.data.userToken) {
+            localStorage.setItem('userToken', response.data.userToken);
+          }
+
+          return response.data;
+        });
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -49,5 +52,23 @@ export const userLogin = createAsyncThunk(
         return rejectWithValue(error.message);
       }
     }
+  }
+);
+
+export const getUserDetails = createAsyncThunk(
+  'user/getUserDetails',
+  async (arg, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`
+        }
+      };
+
+      const { data } = await axios.get('/api/profile', config);
+
+      return data;
+    } catch (error) {}
   }
 );

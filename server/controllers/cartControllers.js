@@ -112,13 +112,11 @@ module.exports.updateCart = async (req, res) => {
 module.exports.deleteCartItem = async (req, res) => {
   const userId = req.params.userId;
   const productId = req.params.itemId;
-  console.log(req.params);
 
   try {
     let cart = await Cart.findOne({ userId });
 
     let itemIndex = cart.items.findIndex(p => p.productId == productId);
-    console.log(itemIndex);
 
     if (itemIndex > -1) {
       let productItem = cart.items[itemIndex];

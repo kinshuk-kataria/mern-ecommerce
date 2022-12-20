@@ -15,12 +15,9 @@ export default function Login() {
 
   useEffect(() => {
     if (userInfo) {
-      alert('Logged-in successfully');
       navigate('/');
-    } else if (error) {
-      alert('Please enter valid credentials');
     }
-  }, [userInfo, navigate, error]);
+  }, [navigate, userInfo]);
 
   const handleInputChange = e => {
     setFormData(prevData => {
