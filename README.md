@@ -8,7 +8,7 @@
 <li>StateManagement: Redux</li>
 <li>Styling: Styled-Components</li>
 <li>ReactJS</li>
-<li>ReactJS</li>
+
 </ul>
 
 
@@ -18,7 +18,7 @@
 <li>ExpressJS</li>
 <li>Database: MongoDB</li>
 <li>DB connection: mongoose</li>
-<li>API: REST</li>
+<li>REST API</li>
 </ul>
 
 ## Features of the application:
