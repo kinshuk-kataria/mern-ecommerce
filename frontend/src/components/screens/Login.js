@@ -1,17 +1,17 @@
 import React from 'react';
-import { Container, Form } from '../styles/components/LoginStyle';
+import { Container, Form } from '../../styles/components/LoginStyle';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { userLogin } from '../features/auth/authActions';
+import { userLogin } from '../../features/auth/authActions';
 import { useEffect } from 'react';
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const { userInfo, error } = useSelector(state => state.auth);
+  const { userInfo } = useSelector(state => state.auth);
 
   useEffect(() => {
     if (userInfo) {

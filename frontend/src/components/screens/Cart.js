@@ -6,8 +6,8 @@ import {
   ItemDetails,
   QuantityContainer,
   Summary
-} from '../styles/components/CartStyle';
-import { deleteCartItem, updateCart } from '../features/cart/cartActions';
+} from '../../styles/components/CartStyle';
+import { deleteCartItem, updateCart } from '../../features/cart/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 

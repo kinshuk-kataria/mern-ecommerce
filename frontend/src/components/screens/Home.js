@@ -1,13 +1,10 @@
 import React from 'react';
-import Product from './Product';
-import { Row } from '../styles/components/HomeStyle';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchProducts } from '../features/product/productActions';
+import Product from '../Product';
+import { Row } from '../../styles/components/HomeStyle';
+
 import { useSelector } from 'react-redux';
 
 function Home() {
-  const dispatch = useDispatch();
   const { items } = useSelector(state => state.products);
   const { userInfo } = useSelector(state => state.auth);
 

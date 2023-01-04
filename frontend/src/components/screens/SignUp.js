@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Form } from '../styles/components/LoginStyle';
-import { registerUser } from '../features/auth/authActions';
+import { Container, Form } from '../../styles/components/LoginStyle';
+import { registerUser } from '../../features/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useEffect } from 'react';
