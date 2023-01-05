@@ -24,8 +24,6 @@ function App() {
     if (userToken) {
       dispatch(getUserDetails());
     }
-
-    dispatch(getCart(userId));
   }, [userToken, userId, dispatch]);
 
   useEffect(() => {

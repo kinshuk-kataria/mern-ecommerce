@@ -50,6 +50,7 @@ export const QuantityContainer = styled.div`
     border: none;
     cursor: pointer;
     font-size: 1.5rem;
+    background: white;
   }
 `;
 

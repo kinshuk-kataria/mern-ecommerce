@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Product from '../Product';
 import { Row } from '../../styles/components/HomeStyle';
-
-import { useSelector } from 'react-redux';
+import { getCart } from '../../features/cart/cartActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home() {
   const { items } = useSelector(state => state.products);
   const { userInfo } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userInfo) {
+      let userId = userInfo.id;
+      dispatch(getCart(userId));
+    }
+  }, [userInfo]);
 
   return (
     <div>

@@ -15,7 +15,7 @@ function Cart() {
   const cart = useSelector(state => state.cart.cart);
   const dispatch = useDispatch();
   const { userInfo } = useSelector(state => state.auth);
-  const userId = userInfo?._id;
+  const userId = userInfo?.id;
 
   const handleDeleteItem = data => {
     dispatch(deleteCartItem(data));

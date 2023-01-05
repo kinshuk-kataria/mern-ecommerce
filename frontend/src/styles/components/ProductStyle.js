@@ -22,8 +22,9 @@ export const Container = styled.div``;
 export const Header = styled.div`
   text-align: center;
   img {
-    height: auto;
+    height: 350px;
     max-width: 100%;
+    object-fit: cover;
     vertical-align: middle;
   }
 `;
