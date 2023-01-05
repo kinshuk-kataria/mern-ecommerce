@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Login from './Login';
-import { Container } from '../styles/components/ProfileStyle';
+import { Container } from '../../styles/components/ProfileStyle';
 import { useDispatch } from 'react-redux';
-import { logout } from '../features/auth/authSlice';
+import { logout } from '../../features/auth/authSlice';
 
 export default function Profile() {
   const { userInfo } = useSelector(state => state.auth);
