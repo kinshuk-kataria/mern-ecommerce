@@ -10,8 +10,10 @@ import {
 import { deleteCartItem, updateCart } from '../../features/cart/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 function Cart() {
+  const navigate = useNavigate('');
   const cart = useSelector(state => state.cart.cart);
   const dispatch = useDispatch();
   const { userInfo } = useSelector(state => state.auth);
@@ -23,6 +25,14 @@ function Cart() {
 
   const handleUpdateCart = ({ userId, productId, qty }) => {
     dispatch(updateCart({ userId, productId, qty }));
+  };
+
+  const handleCheckout = () => {
+    if (cart.userId) {
+      navigate('/checkout');
+    } else {
+      alert('Please Login...');
+    }
   };
 
   if (cart && cart.items.length > 0) {
@@ -80,7 +90,7 @@ function Cart() {
             <strong>Total:</strong>
             <strong>{cart?.bill}$</strong>
           </div>
-          <button>Proceed to checkout</button>
+          <button onClick={handleCheckout}>Proceed to checkout</button>
         </Summary>
       </Container>
     );

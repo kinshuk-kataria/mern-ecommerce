@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 export default function Profile() {
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate('');
 
   const handleLogout = () => {
     dispatch(logout());

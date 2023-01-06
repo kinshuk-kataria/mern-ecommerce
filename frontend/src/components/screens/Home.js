@@ -9,12 +9,11 @@ function Home() {
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
+  const userId = userInfo?.id;
+
   useEffect(() => {
-    if (userInfo) {
-      let userId = userInfo.id;
-      dispatch(getCart(userId));
-    }
-  }, [userInfo]);
+    dispatch(getCart(userId));
+  }, [userId, dispatch]);
 
   return (
     <div>
@@ -26,7 +25,7 @@ function Home() {
             title={item.title}
             price={item.price}
             productId={item._id}
-            userId={userInfo?._id}
+            userId={userInfo?.id}
           />
         ))}
       </Row>

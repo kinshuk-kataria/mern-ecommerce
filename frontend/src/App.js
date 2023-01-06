@@ -8,10 +8,10 @@ import Profile from './components/screens/Profile';
 import Login from './components/screens/Login';
 import SignUp from './components/screens/SignUp';
 import { useEffect } from 'react';
-import { getCart } from './features/cart/cartActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './features/product/productActions';
 import { getUserDetails } from './features/auth/authActions';
+import Checkout from './components/screens/Checkout';
 
 function App() {
   const user = useSelector(state => state.auth);
@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -40,6 +40,7 @@ function App() {
           <Route exact path="/cart" element={<Cart />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/create" element={<SignUp />}></Route>
+          <Route exact path="/checkout" element={<Checkout />}></Route>
         </Routes>
       </Router>
     </div>
