@@ -28,10 +28,10 @@ function Cart() {
   };
 
   const handleCheckout = () => {
-    if (cart.userId) {
+    if (userId) {
       navigate('/checkout');
     } else {
-      alert('Please Login...');
+      alert('Please Login first...');
     }
   };
 

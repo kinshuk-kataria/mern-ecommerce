@@ -37,4 +37,7 @@ export const Total = styled.div`
 export const Payment = styled.div`
   padding: 4rem 0;
   text-align: left;
+  p {
+    padding: 10px 0;
+  }
 `;

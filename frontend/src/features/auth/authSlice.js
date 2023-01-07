@@ -53,7 +53,6 @@ export const authSlice = createSlice({
       state.loading = false;
       state.userInfo = action.payload;
       state.userToken = action.payload.userToken;
-      console.log(action);
     });
     builder.addCase(userLogin.rejected, (state, action) => {
       state.loading = false;

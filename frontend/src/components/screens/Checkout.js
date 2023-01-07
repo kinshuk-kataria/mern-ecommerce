@@ -5,28 +5,23 @@ import {
   SubTotal,
   Total
 } from '../../styles/components/CheckoutStyle';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PaypalButtons from '../paypal/PaypalButtons';
+import { createOrder } from '../../features/order/orderActions';
 
 export default function Checkout() {
-  const [sdkReady, setSdkReady] = useState(false);
   const cart = useSelector(state => state.cart);
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const PAYPAL_CLIENT_ID =
+    'AaZdJWvvg4CUSKguxWmowOfjgW1VOHgiSSBd2FeixhX8YbFw1VRZwV8RYTFG9HAT8ULe4isdPY0b9aEQ';
+  const cartId = cart.cart._id;
+  const userId = auth.userInfo.id;
+  const data = { cartId, userId };
 
-  useEffect(() => {
-    const addPaypalScript = async () => {
-      const { data: clientId } = await axios.get('checkout');
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.appendChild(script);
-    };
-  }, []);
+  const handleCreateOrder = () => {
+    dispatch(createOrder(data));
+  };
 
   return (
     <CheckoutContainer>
@@ -42,8 +37,11 @@ export default function Checkout() {
         <p>${cart?.cart?.bill}</p>
       </Total>
       <Payment>
-        <h4>Choose payment method below:</h4>
-        <button>Payment</button>
+        <p>Choose below payment methods</p>
+        <PaypalButtons
+          PAYPAL_CLIENT_ID={PAYPAL_CLIENT_ID}
+          handleCreateOrder={handleCreateOrder}
+        />
       </Payment>
     </CheckoutContainer>
   );
