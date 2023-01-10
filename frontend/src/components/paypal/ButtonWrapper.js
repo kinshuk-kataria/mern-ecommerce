@@ -1,7 +1,14 @@
 import { usePayPalScriptReducer, PayPalButtons } from '@paypal/react-paypal-js';
 
 const ButtonWrapper = props => {
-  const { style, currency, showSpinner, amount, handleCreateOrder } = props;
+  const {
+    style,
+    currency,
+    showSpinner,
+    amount,
+    handleCreateOrder,
+    handleonApprove
+  } = props;
   const [{ options, isPending }] = usePayPalScriptReducer();
 
   return (
@@ -13,11 +20,7 @@ const ButtonWrapper = props => {
         forceReRender={[amount, currency, style]}
         fundingSource={undefined}
         createOrder={handleCreateOrder}
-        onApprove={function (data, actions) {
-          return actions.order.capture().then(function () {
-            // Your code here after capture the order
-          });
-        }}
+        onApprove={handleonApprove}
       />
     </>
   );

@@ -22,7 +22,7 @@ async function createOrder(amountValue) {
         {
           amount: {
             currency_code: 'USD',
-            value: `${ amountValue }`
+            value: `${amountValue}`
           }
         }
       ]
@@ -30,6 +30,19 @@ async function createOrder(amountValue) {
   });
 
   return handleResponse(response);
+}
+async function capturePayment(orderId) {
+  const accessToken = await generateAccessToken();
+  const url = `${base}/v2/checkout/orders/${orderId}/capture`;
+  const response = await fetch(url, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+  const data = await response.json();
+  return data;
 }
 
 async function generateAccessToken() {
@@ -55,4 +68,4 @@ async function handleResponse(response) {
   throw new Error(errorMessage);
 }
 
-module.exports = { createOrder };
+module.exports = { createOrder, capturePayment };
