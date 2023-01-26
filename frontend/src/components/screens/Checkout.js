@@ -18,6 +18,7 @@ export default function Checkout() {
     'AaZdJWvvg4CUSKguxWmowOfjgW1VOHgiSSBd2FeixhX8YbFw1VRZwV8RYTFG9HAT8ULe4isdPY0b9aEQ';
   const cartId = cart.cart._id;
   const userId = auth.userInfo.id;
+  const amountValue = cart.cart.bill;
 
   const handleCreateOrder = async () => {
     const data = { cartId, userId };
@@ -27,7 +28,8 @@ export default function Checkout() {
   };
 
   const handleOnApprove = async (data, actions) => {
-    const response = await axios.post(`/api/orders/${data.orderID}/capture`);
+    const response= await axios.post(`/api/orders/${data.orderID}/capture`);
+    console.log(response);
     return response;
   };
 
@@ -50,6 +52,7 @@ export default function Checkout() {
           PAYPAL_CLIENT_ID={PAYPAL_CLIENT_ID}
           handleCreateOrder={handleCreateOrder}
           handleOnApprove={handleOnApprove}
+          amountValue={amountValue}
         />
       </Payment>
     </CheckoutContainer>

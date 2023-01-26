@@ -7,7 +7,7 @@ const ButtonWrapper = props => {
     showSpinner,
     amount,
     handleCreateOrder,
-    handleonApprove
+    handleOnApprove
   } = props;
   const [{ options, isPending }] = usePayPalScriptReducer();
 
@@ -20,7 +20,7 @@ const ButtonWrapper = props => {
         forceReRender={[amount, currency, style]}
         fundingSource={undefined}
         createOrder={handleCreateOrder}
-        onApprove={handleonApprove}
+        onApprove={handleOnApprove}
       />
     </>
   );

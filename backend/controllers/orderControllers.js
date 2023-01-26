@@ -10,7 +10,7 @@ module.exports.createOrders = async (req, res) => {
   const userCart = await Cart.findById({ _id: cartId });
   const cartUserId = await userCart.userId.slice(1);
 
-  //verify if cart is associated to the specific user for security purposes
+  //verify if cart is associated to the specific user before proceeding
   if (cartUserId === userId) {
     const amountValue = userCart.bill;
     try {
@@ -23,7 +23,8 @@ module.exports.createOrders = async (req, res) => {
           _id: order.id,
           userId,
           items,
-          bill: amountValue
+          bill: amountValue,
+          status: 'Processing'
         });
       }
     } catch (err) {
@@ -35,9 +36,15 @@ module.exports.createOrders = async (req, res) => {
 };
 
 module.exports.capture = async (req, res) => {
-  console.log('Got the request -------------------------------------------');
   const { orderID } = req.params;
-  console.log(orderID);
   const captureData = await capturePayment(orderID);
+
+  /*if (captureData.status === 200) {
+    const order = Order.findById({ captureData.id });
+  }
+  else {
+    
+  }*/
+
   res.json(captureData);
 };

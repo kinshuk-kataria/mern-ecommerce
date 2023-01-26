@@ -31,9 +31,10 @@ async function createOrder(amountValue) {
 
   return handleResponse(response);
 }
-async function capturePayment(orderId) {
+async function capturePayment(orderID) {
   const accessToken = await generateAccessToken();
-  const url = `${base}/v2/checkout/orders/${orderId}/capture`;
+
+  const url = `${base}/v2/checkout/orders/${orderID}/capture`;
   const response = await fetch(url, {
     method: 'post',
     headers: {
@@ -55,7 +56,7 @@ async function generateAccessToken() {
     }
   });
   const jsonData = await handleResponse(response);
-  console.log(jsonData);
+
   return jsonData.access_token;
 }
 

@@ -4,20 +4,20 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import ButtonWrapper from './ButtonWrapper';
 
 export default function PaypalButtons(props) {
-  const { PAYPAL_CLIENT_ID, handleCreateOrder, handleOnApprove } = props;
+  const { PAYPAL_CLIENT_ID, handleCreateOrder, handleOnApprove,amountValue } = props;
 
   return (
     <div style={{ maxWidth: '750px', minHeight: '200px' }}>
       <PayPalScriptProvider
         options={{
-          'client-id': 'test',
+          'client-id': `${PAYPAL_CLIENT_ID}`,
           'components': 'buttons',
           'currency': 'USD'
         }}
       >
         <ButtonWrapper
           PAYPAL_CLIENT_ID={PAYPAL_CLIENT_ID}
-          amount={2}
+          amount={amountValue}
           currency="USD"
           style={{ layout: 'vertical' }}
           showSpinner={false}

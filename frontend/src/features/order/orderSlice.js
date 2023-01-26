@@ -1,21 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { createOrder } from "./orderActions";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    orders: [],
-    loading:false
-}
+  orders: [],
+  loading: false
+};
 
-const orderSlice = createSlice(
-  {  name: 'order',
-        initialState,
-        reducers: {},
-        extraReducers:builder=> {
-            builder.addCase(createOrder.fulfilled, (state,action) => {
-            
-        })
-    }
-}
-);
+const orderSlice = createSlice({ name: 'order', initialState, reducers: {} });
 
 export default orderSlice.reducer;

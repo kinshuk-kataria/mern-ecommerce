@@ -26,6 +26,10 @@ const OrderSchema = new Schema({
     type: Number,
     required: true
   },
+  status: {
+    type: String,
+    required:true
+  },
   date_added: {
     type: Date,
     default: Date.now
