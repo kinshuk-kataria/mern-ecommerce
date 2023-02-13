@@ -4,6 +4,7 @@ import Login from './Login';
 import { Container } from '../../styles/components/ProfileStyle';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   const { userInfo } = useSelector(state => state.auth);
@@ -13,11 +14,9 @@ export default function Profile() {
     dispatch(logout());
   };
 
-  return (
-    <div>
-      {!userInfo ? (
-        <Login />
-      ) : (
+  if (userInfo) {
+    return (
+      <div>
         <Container>
           <h2>Profile Details</h2>
           <section>
@@ -30,7 +29,18 @@ export default function Profile() {
           </section>
           <button onClick={handleLogout}>Log-Out</button>
         </Container>
-      )}
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <Container>
+        <h4>
+          You have been logged out. Please Login{' '}
+          <a href="/login">
+            <button>Login</button>
+          </a>
+        </h4>
+      </Container>
+    );
+  }
 }

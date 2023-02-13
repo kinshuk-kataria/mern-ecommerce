@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 0.8rem 0;
-
   h2 {
     padding: 2rem 0;
     border-bottom: 1px solid black;
@@ -14,7 +12,8 @@ export const Container = styled.div`
   @media (min-width: 576px) {
     width: 80%;
     margin: 3px auto;
-    border: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
   }
   @media (min-width: 992px) {
     width: 60%;
@@ -50,6 +49,7 @@ export const QuantityContainer = styled.div`
     border: none;
     cursor: pointer;
     font-size: 1.5rem;
+    background: white;
   }
 `;
 
@@ -62,7 +62,7 @@ export const Summary = styled.div`
     border-bottom: 1px solid black;
   }
   button {
-    margin-top: 10px;
+    margin: 10px 0;
     width: 50%;
     padding: 0.7rem;
     cursor: pointer;

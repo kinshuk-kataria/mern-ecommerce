@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+  _id: {
+    type: String
+  },
   userId: {
     type: String
   },
@@ -22,6 +25,10 @@ const OrderSchema = new Schema({
   bill: {
     type: Number,
     required: true
+  },
+  status: {
+    type: String,
+    required:true
   },
   date_added: {
     type: Date,

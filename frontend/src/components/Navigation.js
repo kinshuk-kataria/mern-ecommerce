@@ -11,7 +11,7 @@ function Navigation() {
   return (
     <Nav>
       <Link to="/">
-        <Logo>Wish</Logo>
+        <Logo>Outfits</Logo>
       </Link>
       <Container>
         <Item>

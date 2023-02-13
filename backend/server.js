@@ -7,6 +7,7 @@ const config = require('config');
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
 const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/order');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use('/api', authRoutes);
 app.use('/api', itemRoutes);
 app.use('/api', cartRoutes);
+app.use('/api', orderRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
