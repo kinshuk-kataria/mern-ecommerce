@@ -8,9 +8,11 @@ const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/order');
+const helmet = require('helmet');
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use('/api', authRoutes);
