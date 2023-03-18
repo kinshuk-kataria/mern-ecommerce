@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './features/product/productActions';
 import { getUserDetails } from './features/auth/authActions';
+import Orders from './components/screens/Orders';
 import Checkout from './components/screens/Checkout';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/create" element={<SignUp />}></Route>
           <Route exact path="/checkout" element={<Checkout />}></Route>
+          <Route exact path="/orders" element={<Orders />}></Route>
         </Routes>
       </Router>
     </div>

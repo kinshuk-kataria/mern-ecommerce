@@ -41,3 +41,10 @@ export const Payment = styled.div`
     padding: 10px 0;
   }
 `;
+export const RazorPayButton = styled.div`
+  button {
+    width: 100%;
+    padding: 18px;
+    margin: 14px 0;
+  }
+`;

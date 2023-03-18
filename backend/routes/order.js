@@ -4,5 +4,7 @@ const orderController = require('../controllers/orderControllers');
 
 router.post('/orders', orderController.createOrders);
 router.post('/orders/:orderID/capture', orderController.capture);
+router.post('/razor-pay-order', orderController.createRazorPayOrder);
+router.post('/verify', orderController.verifyRazorpayPayment);
 
 module.exports = router;

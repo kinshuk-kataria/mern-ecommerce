@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   CheckoutContainer,
   Payment,
   SubTotal,
-  Total
+  Total,
+  RazorPayButton
 } from '../../styles/components/CheckoutStyle';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PaypalButtons from '../paypal/PaypalButtons';
-import { createOrder } from '../../features/order/orderActions';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 
 export default function Checkout() {
   const cart = useSelector(state => state.cart);
   const auth = useSelector(state => state.auth);
+  const navigate = useNavigate();
 
   const PAYPAL_CLIENT_ID =
     'AaZdJWvvg4CUSKguxWmowOfjgW1VOHgiSSBd2FeixhX8YbFw1VRZwV8RYTFG9HAT8ULe4isdPY0b9aEQ';
-  const cartId = cart.cart._id;
-  const userId = auth.userInfo.id;
-  const amountValue = cart.cart.bill;
+  const RAZOR_PAY_ID = 'rzp_test_gcrgN1huv4qUZ3';
+  const cartId = cart?.cart?._id;
+  console.log(cartId);
+  const userId = auth?.userInfo?.id;
+  const amountValue = cart?.cart?.bill;
 
   const handleCreateOrder = async () => {
     const data = { cartId, userId };
@@ -27,11 +32,77 @@ export default function Checkout() {
     return orderID;
   };
 
-  const handleOnApprove = async (data, actions) => {
-    const response= await axios.post(`/api/orders/${data.orderID}/capture`);
+  const handleOnApprove = async data => {
+    const response = await axios.post(`/api/orders/${data.orderID}/capture`);
     console.log(response);
     return response;
   };
+
+  const handleRazorPayPayment = async () => {
+    const { data } = await axios.post('/api/razor-pay-order', {
+      cartId,
+      userId
+    });
+    console.log(data);
+    if (data.status === 'created') {
+      var options = {
+        key: RAZOR_PAY_ID, // Enter the Key ID generated from the Dashboard
+        amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency: data.currency,
+        name: 'Outfits', //your business name
+        description: 'Test Transaction',
+        image: 'https://example.com/your_logo',
+        order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        handler: function (response) {
+          const successData = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            userId: userId,
+            cartId: cartId,
+            order_id: data.id
+          };
+          axios.post('/api/verify', successData);
+        },
+
+        prefill: {
+          name: 'Gaurav Kumar', //your customer's name
+          email: 'gaurav.kumar@example.com',
+          contact: '9000090000'
+        },
+        notes: {
+          address: 'Razorpay Corporate Office'
+        },
+        theme: {
+          color: '#3399cc'
+        }
+      };
+
+      const razorPayObject = new window.Razorpay(options);
+      razorPayObject.on('payment.failed', function (response) {
+        axios.post('/api/verify', response);
+      });
+      razorPayObject.open();
+    }
+  };
+
+  const loadScript = src => {
+    return new Promise(resolve => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  useEffect(() => {
+    loadScript('https://checkout.razorpay.com/v1/checkout.js');
+  }, []);
 
   return (
     <CheckoutContainer>
@@ -46,8 +117,12 @@ export default function Checkout() {
         <h2>Order Total</h2>
         <p>${cart?.cart?.bill}</p>
       </Total>
+
       <Payment>
         <p>Choose below payment methods</p>
+        <RazorPayButton>
+          <button onClick={handleRazorPayPayment}>Raxorpay</button>
+        </RazorPayButton>
         <PaypalButtons
           PAYPAL_CLIENT_ID={PAYPAL_CLIENT_ID}
           handleCreateOrder={handleCreateOrder}

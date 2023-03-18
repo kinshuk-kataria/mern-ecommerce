@@ -2,15 +2,18 @@ const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const User = require('../models/User');
 const { createOrder, capturePayment } = require('../helpers/paypal-api');
+const Razorpay = require('razorpay');
+const config = require('config');
+const { validatePaymentVerification } = require('../utils/razorPay');
 
 module.exports.createOrders = async (req, res) => {
-  const data = req.body;
   const { userId, cartId } = req.body;
 
   const userCart = await Cart.findById({ _id: cartId });
   const cartUserId = await userCart.userId.slice(1);
 
   //verify if cart is associated to the specific user before proceeding
+
   if (cartUserId === userId) {
     const amountValue = userCart.bill;
     try {
@@ -47,4 +50,93 @@ module.exports.capture = async (req, res) => {
   }*/
 
   res.json(captureData);
+};
+
+module.exports.createRazorPayOrder = async (req, res) => {
+  const { userId, cartId } = req.body;
+  const userCart = await Cart.findById({ _id: cartId });
+  const cartUserId = await userCart.userId.slice(1);
+
+  if (cartUserId === userId) {
+    const amountValue = userCart.bill * 100;
+    const items = userCart.items;
+
+    let rzp = new Razorpay({
+      key_id: config.get('RAZOR_PAY_ID'),
+      key_secret: config.get('RAZOR_PAY_SECRET')
+    });
+    try {
+      rzp.orders
+        .create({
+          amount: amountValue,
+          currency: 'INR',
+          receipt: 'recipt#1',
+          notes: {
+            key1: 'value3',
+            key2: 'value4'
+          }
+        })
+        .then(data => {
+          {
+            res.json(data);
+            Order.create({
+              _id: data.id,
+              userId,
+              items,
+              bill: amountValue,
+              status: 'Processing'
+            });
+          }
+        });
+    } catch (err) {
+      res.status(500);
+    }
+  }
+};
+
+module.exports.verifyRazorpayPayment = async (req, res) => {
+  const { order_id } = req.body;
+  console.log(req.body);
+  let verifyPayment = validatePaymentVerification(
+    { order_id: order_id, payment_id: req.body.razorpay_payment_id },
+    req.body.razorpay_signature,
+    config.get('RAZOR_PAY_SECRET')
+  );
+  if (verifyPayment.isValid) {
+    res.json(verifyPayment);
+    await Order.updateOne(
+      { _id: order_id },
+      {
+        $set: {
+          status: 'Success'
+        }
+      }
+    );
+  } else {
+    await Order.updateOne(
+      { _id: req.body.error.metadata.order_id },
+      {
+        $set: {
+          status: 'Failed'
+        }
+      }
+    );
+  }
+
+  /*  const userCart = await Cart.findById({ _id: cartId });
+  const cartUserId = await userCart.userId.slice(1);
+  const orderId = req.body.razorpay_order_id;
+
+  if (cartUserId === userId) {
+    const amountValue = userCart.bill;
+    const items = userCart.items;
+
+    await Order.create({
+      _id: orderId,
+      userId,
+      items,
+      bill: amountValue,
+      status: 'success'
+    });
+  }*/
 };
