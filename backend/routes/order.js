@@ -6,5 +6,6 @@ router.post('/orders', orderController.createOrders);
 router.post('/orders/:orderID/capture', orderController.capture);
 router.post('/razor-pay-order', orderController.createRazorPayOrder);
 router.post('/verify', orderController.verifyRazorpayPayment);
+router.get('/get-orders/:userId', orderController.getOrders);
 
 module.exports = router;

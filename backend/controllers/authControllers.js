@@ -53,7 +53,7 @@ module.exports.getUserProfile = asyncHandler(async (req, res) => {
   //re.user set up in middleware
 
   const user = await User.findById(req.user._id);
-  console.log(user);
+
   if (user) {
     res.json({
       id: user._id,

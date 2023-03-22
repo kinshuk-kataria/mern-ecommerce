@@ -96,7 +96,7 @@ module.exports.createRazorPayOrder = async (req, res) => {
 
 module.exports.verifyRazorpayPayment = async (req, res) => {
   const { order_id } = req.body;
-  console.log(req.body);
+
   let verifyPayment = validatePaymentVerification(
     { order_id: order_id, payment_id: req.body.razorpay_payment_id },
     req.body.razorpay_signature,
@@ -122,21 +122,14 @@ module.exports.verifyRazorpayPayment = async (req, res) => {
       }
     );
   }
+};
 
-  /*  const userCart = await Cart.findById({ _id: cartId });
-  const cartUserId = await userCart.userId.slice(1);
-  const orderId = req.body.razorpay_order_id;
-
-  if (cartUserId === userId) {
-    const amountValue = userCart.bill;
-    const items = userCart.items;
-
-    await Order.create({
-      _id: orderId,
-      userId,
-      items,
-      bill: amountValue,
-      status: 'success'
-    });
-  }*/
+module.exports.getOrders = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const orders = await Order.find({ userId });
+    res.status(201).json(orders);
+  } catch (err) {
+    res.send(500).send(err);
+  }
 };

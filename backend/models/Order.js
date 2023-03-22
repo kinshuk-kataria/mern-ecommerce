@@ -13,13 +13,14 @@ const OrderSchema = new Schema({
       productId: {
         type: String
       },
-      name: String,
+      title: String,
       quantity: {
         type: Number,
         required: true,
         min: [1, 'Quantity can not be less then 1.']
       },
-      price: Number
+      price: Number,
+      img: String
     }
   ],
   bill: {
@@ -28,7 +29,7 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    required:true
+    required: true
   },
   date_added: {
     type: Date,

@@ -13,6 +13,7 @@ import { fetchProducts } from './features/product/productActions';
 import { getUserDetails } from './features/auth/authActions';
 import Orders from './components/screens/Orders';
 import Checkout from './components/screens/Checkout';
+import { getOrders } from './features/order/orderActions';
 
 function App() {
   const user = useSelector(state => state.auth);
@@ -24,6 +25,9 @@ function App() {
   useEffect(() => {
     if (userToken) {
       dispatch(getUserDetails());
+    }
+    if (userId) {
+      dispatch(getOrders(userId));
     }
   }, [userToken, userId, dispatch]);
 
