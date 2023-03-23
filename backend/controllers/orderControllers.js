@@ -97,13 +97,13 @@ module.exports.createRazorPayOrder = async (req, res) => {
 module.exports.verifyRazorpayPayment = async (req, res) => {
   const { order_id } = req.body;
 
-  let verifyPayment = validatePaymentVerification(
+  let verifiedPayment = validatePaymentVerification(
     { order_id: order_id, payment_id: req.body.razorpay_payment_id },
     req.body.razorpay_signature,
     config.get('RAZOR_PAY_SECRET')
   );
-  if (verifyPayment.isValid) {
-    res.json(verifyPayment);
+  if (verifiedPayment.isValid) {
+    res.json(verifiedPayment);
     await Order.updateOne(
       { _id: order_id },
       {
@@ -121,6 +121,7 @@ module.exports.verifyRazorpayPayment = async (req, res) => {
         }
       }
     );
+    res.json(verifiedPayment);
   }
 };
 
@@ -131,5 +132,14 @@ module.exports.getOrders = async (req, res) => {
     res.status(201).json(orders);
   } catch (err) {
     res.send(500).send(err);
+  }
+};
+module.exports.successOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const order = await Order.findOne({ _id: orderId });
+    res.json(order);
+  } catch (err) {
+    res.send(500);
   }
 };

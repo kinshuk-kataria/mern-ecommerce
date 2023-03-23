@@ -20,7 +20,7 @@ function OrderCard({ dateAdded, totalAmount, status, items }) {
         <p>Order Status: {status}</p>
       </CardHeader>
 
-      {items.map(item => (
+      {items?.map(item => (
         <Item imgUrl={item.img} title={item.title} price={item.price} />
       ))}
     </Card>

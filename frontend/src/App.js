@@ -14,6 +14,7 @@ import { getUserDetails } from './features/auth/authActions';
 import Orders from './components/screens/Orders';
 import Checkout from './components/screens/Checkout';
 import { getOrders } from './features/order/orderActions';
+import Success from './components/screens/Success';
 
 function App() {
   const user = useSelector(state => state.auth);
@@ -47,6 +48,11 @@ function App() {
           <Route exact path="/create" element={<SignUp />}></Route>
           <Route exact path="/checkout" element={<Checkout />}></Route>
           <Route exact path="/orders" element={<Orders />}></Route>
+          <Route
+            exact
+            path="/success"
+            element={<Success userId={userId} />}
+          ></Route>
         </Routes>
       </Router>
     </div>

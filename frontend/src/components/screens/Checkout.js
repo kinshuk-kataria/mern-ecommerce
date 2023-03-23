@@ -21,7 +21,7 @@ export default function Checkout() {
     'AaZdJWvvg4CUSKguxWmowOfjgW1VOHgiSSBd2FeixhX8YbFw1VRZwV8RYTFG9HAT8ULe4isdPY0b9aEQ';
   const RAZOR_PAY_ID = 'rzp_test_gcrgN1huv4qUZ3';
   const cartId = cart?.cart?._id;
-  console.log(cartId);
+
   const userId = auth?.userInfo?.id;
   const amountValue = cart?.cart?.bill;
 
@@ -34,8 +34,12 @@ export default function Checkout() {
 
   const handleOnApprove = async data => {
     const response = await axios.post(`/api/orders/${data.orderID}/capture`);
-    console.log(response);
+
     return response;
+  };
+
+  const handleSuccessResponse = order_id => {
+    navigate('/success', { state: { order_id } });
   };
 
   const handleRazorPayPayment = async () => {
@@ -43,16 +47,16 @@ export default function Checkout() {
       cartId,
       userId
     });
-    console.log(data);
+
     if (data.status === 'created') {
       var options = {
-        key: RAZOR_PAY_ID, // Enter the Key ID generated from the Dashboard
-        amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        key: RAZOR_PAY_ID,
+        amount: data.amount,
         currency: data.currency,
-        name: 'Outfits', //your business name
+        name: 'Outfits',
         description: 'Test Transaction',
         image: 'https://example.com/your_logo',
-        order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        order_id: data.id,
         handler: function (response) {
           const successData = {
             razorpay_payment_id: response.razorpay_payment_id,
@@ -62,11 +66,15 @@ export default function Checkout() {
             cartId: cartId,
             order_id: data.id
           };
-          axios.post('/api/verify', successData);
+          axios.post('/api/verify', successData).then(res => {
+            if (res.data.isValid) {
+              handleSuccessResponse(data.id);
+            }
+          });
         },
 
         prefill: {
-          name: 'Gaurav Kumar', //your customer's name
+          name: 'Gaurav Kumar',
           email: 'gaurav.kumar@example.com',
           contact: '9000090000'
         },
@@ -81,6 +89,9 @@ export default function Checkout() {
       const razorPayObject = new window.Razorpay(options);
       razorPayObject.on('payment.failed', function (response) {
         axios.post('/api/verify', response);
+        alert(response.error.reason);
+
+        navigate('/orders');
       });
       razorPayObject.open();
     }
