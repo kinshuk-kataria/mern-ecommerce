@@ -3,8 +3,9 @@ const Cart = require('../models/Cart');
 const User = require('../models/User');
 const { createOrder, capturePayment } = require('../helpers/paypal-api');
 const Razorpay = require('razorpay');
-const config = require('config');
+
 const { validatePaymentVerification } = require('../utils/razorPay');
+require('dotenv').config();
 
 module.exports.createOrders = async (req, res) => {
   const { userId, cartId } = req.body;
@@ -62,8 +63,8 @@ module.exports.createRazorPayOrder = async (req, res) => {
     const items = userCart.items;
 
     let rzp = new Razorpay({
-      key_id: config.get('RAZOR_PAY_ID'),
-      key_secret: config.get('RAZOR_PAY_SECRET')
+      key_id: process.env.RAZOR_PAY_ID,
+      key_secret: process.env.RAZOR_PAY_SECRET
     });
     try {
       rzp.orders
@@ -100,7 +101,7 @@ module.exports.verifyRazorpayPayment = async (req, res) => {
   let verifiedPayment = validatePaymentVerification(
     { order_id: order_id, payment_id: req.body.razorpay_payment_id },
     req.body.razorpay_signature,
-    config.get('RAZOR_PAY_SECRET')
+    process.env.RAZOR_PAY_SECRET
   );
   if (verifiedPayment.isValid) {
     res.json(verifiedPayment);

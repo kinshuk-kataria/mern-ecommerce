@@ -1,8 +1,8 @@
 const config = require('config');
 const fetch = require('node-fetch');
 
-const CLIENT_ID = config.get('PAYPAL_CLIENT_ID');
-const APP_SECRET = config.get('PAYPAL_SECRET_KEY');
+const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const APP_SECRET = process.env.PAYPAL_SECRET_KEY;
 
 const base = 'https://api-m.sandbox.paypal.com';
 

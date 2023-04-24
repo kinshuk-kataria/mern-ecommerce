@@ -13,7 +13,7 @@ const protect = asyncHandler(async (req, res, next) => {
       token = authHeader.split(' ')[1];
 
       //verified token returns user id
-      const decoded = jwt.verify(token, config.get('jwtSecret'));
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       //find user's obj in db and assign it to req.user
       req.user = await User.findById(decoded.id).select('-password');
