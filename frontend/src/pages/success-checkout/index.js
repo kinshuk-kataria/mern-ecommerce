@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SuccessContainer } from '../../styles/components/SuccessStyle';
-import OrderCard from '../OrderCard';
+import OrderCard from '../../components/OrderCard';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

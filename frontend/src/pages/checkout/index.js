@@ -7,9 +7,8 @@ import {
   RazorPayButton
 } from '../../styles/components/CheckoutStyle';
 import { useSelector } from 'react-redux';
-import PaypalButtons from '../paypal/PaypalButtons';
+import PaypalButtons from '../../components/paypal/PaypalButtons';
 import { useNavigate } from 'react-router-dom';
-
 import axios from 'axios';
 
 export default function Checkout() {

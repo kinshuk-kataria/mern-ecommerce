@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Header } from '../../styles/components/OrderStyle';
-import OrderCard from '../OrderCard';
+import OrderCard from '../../components/OrderCard';
 import { useSelector } from 'react-redux';
 
 export default function Orders() {

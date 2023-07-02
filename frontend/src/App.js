@@ -1,20 +1,21 @@
 import React from 'react';
 import './App.css';
-import Navigation from './components/Navigation';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/screens/Home';
-import Cart from './components/screens/Cart';
-import Profile from './components/screens/Profile';
-import Login from './components/screens/Login';
-import SignUp from './components/screens/SignUp';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/home';
+import Cart from './pages/cart';
+import Profile from './pages/profile';
+import Login from './pages/login';
+import SignUp from './pages/sign-up';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './features/product/productActions';
 import { getUserDetails } from './features/auth/authActions';
-import Orders from './components/screens/Orders';
-import Checkout from './components/screens/Checkout';
+import Orders from './pages/order';
+import Checkout from './pages/checkout';
 import { getOrders } from './features/order/orderActions';
-import Success from './components/screens/Success';
+
+import Layout from './pages/layout';
 
 function App() {
   const user = useSelector(state => state.auth);
@@ -38,23 +39,19 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Navigation />
+      <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />}></Route>
-          <Route exact path="/login" element={<Login />}></Route>
-          <Route exact path="/cart" element={<Cart />}></Route>
-          <Route exact path="/profile" element={<Profile />}></Route>
-          <Route exact path="/create" element={<SignUp />}></Route>
-          <Route exact path="/checkout" element={<Checkout />}></Route>
-          <Route exact path="/orders" element={<Orders />}></Route>
-          <Route
-            exact
-            path="/success"
-            element={<Success userId={userId} />}
-          ></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/create" element={<SignUp />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders" element={<Orders />} />
+          </Route>
         </Routes>
-      </Router>
+      </BrowserRouter>
     </div>
   );
 }

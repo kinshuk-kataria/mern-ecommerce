@@ -1,4 +1,3 @@
-const config = require('config');
 const fetch = require('node-fetch');
 
 const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
